@@ -1,19 +1,28 @@
 import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
 import { resolve } from 'node:path'
+import { defineConfig } from 'vite'
 
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
-  build: {
-    rollupOptions: {
-      input: {
-        popup: resolve(process.cwd(), 'index.html'),
-        content: resolve(process.cwd(), 'src/content/content.ts'),
-      },
-      output: {
-        entryFileNames: (chunk) => chunk.name === 'content' ? 'content.js' : 'assets/[name]-[hash].js',
+export default defineConfig(({ mode }) => {
+  const extensionBuild = mode === 'extension'
+  const input: Record<string, string> = extensionBuild ? {
+    content: resolve(process.cwd(), 'src/content/content.ts'),
+    background: resolve(process.cwd(), 'src/background/background.ts'),
+  } : {
+    popup: resolve(process.cwd(), 'index.html'),
+  }
+
+  return {
+    plugins: [react(), tailwindcss()],
+    build: {
+      emptyOutDir: !extensionBuild,
+      rollupOptions: {
+        input,
+        output: {
+          entryFileNames: (chunk) => chunk.name === 'content' ? 'content.js'
+            : chunk.name === 'background' ? 'background.js' : 'assets/[name]-[hash].js',
+        },
       },
     },
-  },
+  }
 })

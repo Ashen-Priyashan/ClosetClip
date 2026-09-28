@@ -4,6 +4,7 @@ import type { ClothingCategory, ClothingItem } from '../types/clothing'
 import { CLOTHING_CATEGORIES } from '../types/clothing'
 import type { DetectedProduct } from '../services/extractor'
 import { saveClothing, getClothingItems, updateClothing, deleteClothing } from '../services/storage'
+import { createClothingItem } from '../services/clothingFromProduct'
 import OutfitBuilder from '../components/OutfitBuilder'
 import type { Outfit } from '../types/outfit'
 import OutfitsDashboard from '../components/OutfitsDashboard'
@@ -63,17 +64,9 @@ export default function App() {
     setSaving(true)
     setMessage('')
     try {
-      const result = await saveClothing({
-        id: crypto.randomUUID(),
-        name: product.name,
-        ...(product.brand ? { brand: product.brand } : {}),
-        ...(product.price !== undefined ? { price: product.price } : {}),
-        ...(product.currency ? { currency: product.currency } : {}),
-        imageUrl: product.imageUrl,
-        sourceUrl: product.sourceUrl,
-        category: 'unknown',
-        createdAt: new Date().toISOString(),
-      })
+      const item = createClothingItem(product)
+      if (!item) return
+      const result = await saveClothing(item)
       setMessage(result.alreadySaved ? 'Already saved to your closet.' : 'Saved to your closet.')
     } catch {
       setMessage('Could not save this item. Please try again.')
