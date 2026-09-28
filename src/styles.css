@@ -1,13 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #292a25;
-  background: #f7f5f0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", sans-serif;
+  color: #1d1d1f;
+  background: #f5f5f7;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "kern";
 }
 
 * { box-sizing: border-box; }
@@ -135,3 +136,53 @@ h1 em { color: #78856f; font-weight: 400; }
 .save-button:disabled { cursor: not-allowed; opacity: .72; }
 .soon { margin-left: 4px; padding: 4px 5px; border-radius: 4px; color: #dce3d9; background: #ffffff1b; font-size: 7px; letter-spacing: .55px; }
 .footer-note { justify-content: space-between; margin-top: 16px; color: #94948a; font-family: Georgia, "Times New Roman", serif; font-size: 10px; font-style: italic; }
+
+/* Apple-inspired system typography, neutral surfaces, and clear control states. */
+h1,
+.section-heading h2,
+.clothing-title,
+.empty-state strong,
+.outfit-builder h2,
+.selected-empty,
+.outfit-card-title,
+.outfit-detail-heading h2,
+.outfit-notes-copy,
+.product-details strong,
+.preview-copy strong,
+.outfit-piece strong,
+.footer-note {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", sans-serif;
+}
+
+.popup-shell { color: #1d1d1f; background: #f5f5f7; }
+.view-tabs { border-radius: 12px; background: #e8e8ed; }
+.view-tab { min-height: 34px; border-radius: 9px; color: #6e6e73; font-size: 11px; }
+.view-tab.active { color: #1d1d1f; background: #fff; box-shadow: 0 1px 3px #00000012; }
+.search-field, .outfit-name-field input, .outfit-notes-field textarea,
+.outfit-edit-form input, .outfit-edit-form textarea {
+  border-color: #d2d2d7;
+  border-radius: 10px;
+  background: #fff;
+}
+.search-field input, .outfit-name-field input, .outfit-notes-field textarea,
+.outfit-edit-form input, .outfit-edit-form textarea { color: #1d1d1f; font: inherit; }
+.category-chip { border-color: #d2d2d7; color: #3a3a3c; background: #fff; font-size: 10px; }
+.category-chip.selected, .save-button { border-color: #0071e3; color: #fff; background: #0071e3; }
+.clothing-card, .outfit-card, .outfit-piece { border-color: #e5e5ea; border-radius: 13px; background: #fff; }
+.clothing-image-link, .product-panel, .product-image, .outfit-preview { background-color: #e8e8ed; }
+.clothing-title, .outfit-card-title { color: #1d1d1f; }
+.clothing-category, .eyebrow, .builder-category h3 { color: #6e6e73; }
+.builder-item { border-color: #e5e5ea; border-radius: 10px; color: #3a3a3c; background: #fff; }
+.builder-item.selected { border-color: #0071e3; color: #0066cc; background: #f0f7ff; }
+.selected-outfit { border-color: #e5e5ea; border-radius: 12px; background: #fff; }
+.selected-chip { border-color: #e5e5ea; color: #3a3a3c; background: #f5f5f7; }
+.add-outfit-button { border-color: #d2d2d7; border-radius: 10px; color: #0071e3; background: #fff; }
+.card-actions button, .edit-actions button { border-color: #d2d2d7; border-radius: 8px; background: #fff; }
+.text-button, .feedback { color: #0071e3; }
+.product-details strong, .preview-copy strong { color: #1d1d1f; }
+.product-panel { border-color: #e5e5ea; border-radius: 14px; }
+.save-button { min-height: 46px; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; transition: background-color .16s ease, transform .16s ease; }
+.save-button:hover:not(:disabled) { background: #0077ed; }
+.save-button:active:not(:disabled) { transform: scale(.985); }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+:is(button, a, input, select, textarea):focus-visible { outline: 3px solid #0071e355; outline-offset: 2px; }
