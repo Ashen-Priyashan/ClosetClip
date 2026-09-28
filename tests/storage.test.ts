@@ -19,13 +19,16 @@ const item: ClothingItem = {
   category: 'top',
   createdAt: '2026-09-29T00:00:00.000Z',
 }
+const otherItem: ClothingItem = { ...item, id: 'other', name: 'Other shirt', sourceUrl: 'https://shop.example/other' }
 
 beforeEach(() => {
   values = {}
   vi.stubGlobal('chrome', {
     storage: {
       local: {
-        get: vi.fn(async (key: string) => ({ [key]: values[key] })),
+        get: vi.fn(async (key: string | string[]) => Array.isArray(key)
+          ? Object.fromEntries(key.map((entry) => [entry, values[entry]]))
+          : { [key]: values[key] }),
         set: vi.fn(async (nextValues: Record<string, unknown>) => {
           Object.assign(values, nextValues)
         }),
@@ -41,7 +44,7 @@ describe('clothing storage service', () => {
   })
 
   it('retrieves a clothing item by id', async () => {
-    values[STORAGE_KEY] = [item]
+    values[STORAGE_KEY] = [item, otherItem]
 
     await expect(getClothingById(item.id)).resolves.toEqual(item)
     await expect(getClothingById('missing')).resolves.toBeUndefined()
@@ -58,10 +61,12 @@ describe('clothing storage service', () => {
   })
 
   it('deletes an existing item and reports when an item was not found', async () => {
-    values[STORAGE_KEY] = [item]
+    values[STORAGE_KEY] = [item, otherItem]
+    values.outfits = [{ id: 'outfit-1', name: 'Weekend', itemIds: [item.id, 'other'], createdAt: '2026-09-29' }]
 
     await expect(deleteClothing(item.id)).resolves.toBe(true)
-    await expect(getClothingItems()).resolves.toEqual([])
+    await expect(getClothingItems()).resolves.toEqual([otherItem])
+    expect(values.outfits).toEqual([{ id: 'outfit-1', name: 'Weekend', itemIds: ['other'], createdAt: '2026-09-29' }])
     await expect(deleteClothing('missing')).resolves.toBe(false)
   })
 
