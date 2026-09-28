@@ -13,7 +13,7 @@ describe('product metadata extraction', () => {
   it('reads product details from JSON-LD, including nested offers and relative images', () => {
     document.head.innerHTML = `<script type="application/ld+json">${JSON.stringify({
       '@context': 'https://schema.org',
-      '@type': 'Product',
+      '@type': 'https://schema.org/Product',
       name: 'Cotton Shirt',
       brand: { '@type': 'Brand', name: 'Example' },
       image: '/images/shirt.jpg',
@@ -48,5 +48,12 @@ describe('product metadata extraction', () => {
     document.head.innerHTML = '<script type="application/ld+json">{broken json}</script>'
 
     expect(extractProduct()).toEqual({ sourceUrl: 'http://localhost:3000/' })
+  })
+
+  it('rejects non-web URLs from metadata and ignores empty price values', () => {
+    document.head.innerHTML = '<meta property="og:url" content="javascript:alert(1)"><meta property="og:image" content="javascript:alert(2)"><meta property="product:price:amount" content="">'
+    document.body.innerHTML = '<h1>Safe item</h1>'
+
+    expect(extractProduct()).toEqual({ name: 'Safe item', sourceUrl: 'http://localhost:3000/' })
   })
 })

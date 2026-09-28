@@ -27,7 +27,9 @@ function findProducts(value: unknown): JsonRecord[] {
   const graphProducts = Array.isArray(record['@graph']) ? findProducts(record['@graph']) : []
   const type = record['@type']
   const types = Array.isArray(type) ? type : [type]
-  return types.includes('Product') ? [record, ...graphProducts] : graphProducts
+  const isProduct = types.some((entry) => typeof entry === 'string'
+    && (entry === 'Product' || entry.endsWith('/Product') || entry.endsWith('#Product')))
+  return isProduct ? [record, ...graphProducts] : graphProducts
 }
 
 function firstMeta(document: Document, selectors: string[]): string | undefined {
@@ -59,14 +61,17 @@ function productOffer(product: JsonRecord): JsonRecord | undefined {
 
 function parsePrice(value: unknown): number | undefined {
   if (typeof value !== 'string' && typeof value !== 'number') return undefined
-  const parsed = Number(String(value).replace(/[^\d.,-]/g, '').replace(',', '.'))
+  const normalized = String(value).replace(/[^\d.,-]/g, '')
+  if (!normalized || !/\d/.test(normalized)) return undefined
+  const parsed = Number(normalized.replace(',', '.'))
   return Number.isFinite(parsed) ? parsed : undefined
 }
 
 function resolveUrl(value: string | undefined, base: string): string | undefined {
   if (!value) return undefined
   try {
-    return new URL(value, base).href
+    const url = new URL(value, base)
+    return url.protocol === 'http:' || url.protocol === 'https:' ? url.href : undefined
   } catch {
     return undefined
   }
@@ -91,7 +96,8 @@ export function extractProduct(document: Document = window.document): DetectedPr
     ?? document.querySelector<HTMLImageElement>('main img, article img')?.src
   const rawUrl = asText(product?.url) ?? firstMeta(document, ['meta[property="og:url"]'])
     ?? document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.href
-  const pageUrl = document.location?.href || window.location.href
+  const currentUrl = document.location?.href || window.location.href
+  const pageUrl = resolveUrl(currentUrl, 'https://closetclip.invalid/') ?? 'https://closetclip.invalid/'
   const sourceUrl = resolveUrl(rawUrl, pageUrl) ?? pageUrl
   const name = asText(product?.name)
     ?? firstMeta(document, ['meta[property="og:title"]', 'meta[name="twitter:title"]'])
