@@ -26,6 +26,16 @@ h1 { margin: 13px 0 10px; font-family: Georgia, "Times New Roman", serif; font-s
 h1 em { color: #78856f; font-weight: 400; }
 .welcome p { max-width: 265px; margin: 0; color: #797b72; font-size: 12px; line-height: 1.65; }
 .closet-preview { position: relative; height: 184px; overflow: hidden; display: flex; align-items: end; padding: 15px; border: 1px solid #e9e5da; border-radius: 13px; background: radial-gradient(ellipse at 54% 46%, #f4f0e5 0, #eeeadf 51%, #e9e5d9 100%); }
+.product-panel { min-height: 184px; overflow: hidden; border: 1px solid #e9e5da; border-radius: 13px; background: #eeeadf; }
+.status-panel { min-height: 184px; display: flex; align-items: center; justify-content: center; gap: 9px; padding: 22px; color: #777b70; font-size: 12px; text-align: center; }
+.product-card { min-height: 184px; display: grid; grid-template-columns: 138px 1fr; }
+.product-image { width: 138px; height: 184px; object-fit: cover; background: #e6e2d7; }
+.product-image-empty { display: grid; place-items: center; color: #9ba18b; }
+.product-details { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 7px; padding: 17px 14px; color: #797b72; font-size: 10px; overflow-wrap: anywhere; }
+.product-details strong { color: #292a25; font-family: Georgia, "Times New Roman", serif; font-size: 17px; font-weight: 500; line-height: 1.2; }
+.feedback { min-height: 18px; margin: 7px 0 -4px; color: #516c58; font-size: 10px; text-align: center; }
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
 .preview-art { position: absolute; inset: 0; display: grid; place-items: center; opacity: .94; }
 .hanger { position: absolute; top: 29px; width: 65px; height: 41px; border-top: 1.3px solid #aaac98; border-left: 1.3px solid #aaac98; transform: rotate(45deg) skew(-9deg,-9deg); }
 .hanger span { position: absolute; right: -3px; top: -7px; width: 9px; height: 12px; border: 1.2px solid #aaac98; border-bottom: 0; border-radius: 8px 8px 0 0; transform: rotate(-45deg); }
