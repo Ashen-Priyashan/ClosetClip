@@ -4,6 +4,8 @@ import type { ClothingCategory, ClothingItem } from '../types/clothing'
 import { CLOTHING_CATEGORIES } from '../types/clothing'
 import type { DetectedProduct } from '../services/extractor'
 import { saveClothing, getClothingItems, updateClothing, deleteClothing } from '../services/storage'
+import OutfitBuilder from '../components/OutfitBuilder'
+import type { Outfit } from '../types/outfit'
 
 type DetectionStatus = 'loading' | 'ready' | 'unavailable' | 'error'
 type View = 'save' | 'closet' | 'outfits'
@@ -44,7 +46,7 @@ export default function App() {
   }, [view])
 
   useEffect(() => {
-    if (view !== 'closet') return
+    if (view !== 'closet' && view !== 'outfits') return
     let active = true
     void getClothingItems().then((savedItems) => {
       if (active) setItems(savedItems.sort((a, b) => b.createdAt.localeCompare(a.createdAt)))
@@ -200,7 +202,7 @@ export default function App() {
           </article>)}</div>}
       </section>}
 
-      {view === 'outfits' && <section className="empty-state outfit-coming-soon"><Sparkles size={27} /><strong>Outfits are next.</strong><span>Build looks from your saved pieces.</span></section>}
+      {view === 'outfits' && <OutfitBuilder items={items} onSaved={(_outfit: Outfit) => setMessage('Outfit saved.')} />}
 
       <footer className="footer-note"><span>Made for the pieces that feel like you.</span><ArrowUpRight size={15} /></footer>
     </main>
