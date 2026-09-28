@@ -1,8 +1,10 @@
 /// <reference types="chrome" />
 
 import type { ClothingItem } from '../types/clothing'
+import type { Outfit } from '../types/outfit'
 
 const CLOTHING_STORAGE_KEY = 'clothingItems'
+const OUTFIT_STORAGE_KEY = 'outfits'
 
 async function readClothingItems(): Promise<ClothingItem[]> {
   const stored = await chrome.storage.local.get(CLOTHING_STORAGE_KEY)
@@ -56,13 +58,25 @@ export async function updateClothing(
 }
 
 export async function deleteClothing(id: string): Promise<boolean> {
-  const items = await readClothingItems()
+  const stored = await chrome.storage.local.get([CLOTHING_STORAGE_KEY, OUTFIT_STORAGE_KEY])
+  const rawItems: unknown = stored[CLOTHING_STORAGE_KEY]
+  const items = Array.isArray(rawItems) ? rawItems as ClothingItem[] : []
   const updatedItems = items.filter((item) => item.id !== id)
 
   if (updatedItems.length === items.length) {
     return false
   }
 
-  await writeClothingItems(updatedItems)
+  const nextValues: { clothingItems: ClothingItem[]; outfits?: Outfit[] } = {
+    clothingItems: updatedItems,
+  }
+  const savedOutfits: unknown = stored[OUTFIT_STORAGE_KEY]
+  if (Array.isArray(savedOutfits)) {
+    nextValues.outfits = (savedOutfits as Outfit[]).map((outfit) => ({
+      ...outfit,
+      itemIds: outfit.itemIds.filter((itemId) => itemId !== id),
+    }))
+  }
+  await chrome.storage.local.set(nextValues)
   return true
 }

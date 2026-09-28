@@ -19,7 +19,9 @@ function installChromeMock() {
     scripting: { executeScript: vi.fn(async () => []) },
     storage: {
       local: {
-        get: vi.fn(async (key: string) => ({ [key]: values[key] })),
+          get: vi.fn(async (key: string | string[]) => Array.isArray(key)
+            ? Object.fromEntries(key.map((entry) => [entry, values[entry]]))
+            : { [key]: values[key] }),
         set: vi.fn(async (next: Record<string, unknown>) => Object.assign(values, next)),
       },
     },
