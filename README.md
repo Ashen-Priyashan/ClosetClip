@@ -29,7 +29,7 @@ React · TypeScript · Tailwind CSS · Vite · Chrome Extension Manifest V3 · C
 
 ## Local setup
 
-Requirements: Node.js 22 or later and npm.
+Requirements: Node.js 20.19+ or 22.12+ and npm (Vite 8 requirements).
 
 ```bash
 npm ci
