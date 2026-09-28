@@ -1,46 +1,42 @@
 # ClosetClip
 
-ClosetClip is a Chrome extension project for collecting clothing discoveries into a personal digital closet. This repository is being built in small milestones; the current milestone is the installable extension shell.
+ClosetClip is a Chrome extension for saving clothing discoveries into a personal digital closet and arranging saved pieces into outfits. The current MVP stores data locally in Chrome; it has no account or backend.
 
-## Current status
+## Features
 
-- React, TypeScript, Vite, and Tailwind CSS are configured.
-- A basic popup is available from the extension toolbar.
-- A typed clothing item model defines the fields and categories for saved pieces.
-- A storage service reads and writes clothing items through `chrome.storage.local`.
-- The popup's save control is intentionally disabled. Product detection and saving are later milestones.
-- Product detection, popup-connected saving, closet management, and outfit features are not implemented yet.
+- Detect product name, brand, price, currency, image, and page URL from JSON-LD, Open Graph metadata, and common page fallbacks.
+- Save a detected product from the extension popup or the page context menu.
+- Store clothing items locally and detect duplicates by source URL.
+- Browse the closet, search by name, brand, or notes, filter by category, edit item details, open the original product, and delete saved items.
+- Select closet items, create named outfits, and view, edit, or delete saved outfits.
+- Keep outfits linked to clothing item IDs rather than copying the clothing records.
+
+Product detection returns partial details where possible. ClosetClip does not claim that an arbitrary detected product is clothing; items are initially categorized as `unknown` for the user to edit.
 
 ## Tech stack
 
-React · TypeScript · Tailwind CSS · Vite · Chrome Extension Manifest V3 · Lucide React
+React · TypeScript · Tailwind CSS · Vite · Chrome Extension Manifest V3 · Chrome Storage · Lucide React · Vitest · React Testing Library
 
-## Project structure
+## Architecture
 
-```text
-public/
-  icons/             Extension icons
-  manifest.json      Manifest V3 definition
-src/
-  popup/             Popup React entry and UI
-  services/          Browser storage service
-  types/             Shared TypeScript data models
-  styles.css         Tailwind import and popup styles
-tests/               Model and service tests
-index.html           Vite popup document
-vite.config.ts       React and Tailwind Vite plugins
-```
+- `src/popup/` contains the React popup and navigation between Save, My Closet, and Outfits.
+- `src/content/` extracts page metadata and responds to popup or context-menu requests.
+- `src/background/` registers the context-menu action and forwards save requests to the active page.
+- `src/services/` contains product extraction, product-to-item mapping, and Chrome Storage operations.
+- `src/types/` defines clothing and outfit data models.
+- `src/components/` contains the outfit builder and saved outfits dashboard.
+- `tests/` covers extraction, storage, popup interactions, closet actions, and outfit workflows.
 
 ## Local setup
 
 Requirements: Node.js 22 or later and npm.
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-The Vite dev server is useful for working on the popup UI in a browser. Chrome extension APIs and extension behavior should be checked using the production build.
+The Vite development server is for iterating on the popup UI. Extension APIs such as storage and page injection require loading the production build in Chrome.
 
 ## Build and install in Chrome
 
@@ -48,39 +44,37 @@ The Vite dev server is useful for working on the popup UI in a browser. Chrome e
 npm run build
 ```
 
-This creates the unpacked extension in `dist/`. To load it in Chrome:
+The build type-checks the TypeScript, builds the popup, then separately bundles the content script and service worker as standalone scripts in `dist/`.
 
 1. Open `chrome://extensions`.
 2. Turn on **Developer mode**.
-3. Choose **Load unpacked** and select the project's `dist` folder.
-4. Click the ClosetClip toolbar icon to open the popup.
+3. Choose **Load unpacked** and select this project's `dist` folder.
+4. Open a shopping page and click the ClosetClip toolbar icon to inspect and save a detected item.
+5. Alternatively, right-click the page and choose **Save to ClosetClip**.
 
-Reload the extension from `chrome://extensions` after rebuilding.
+The extension uses `activeTab` and `scripting` to inspect a page only after the user invokes ClosetClip. Reload the extension in `chrome://extensions` after rebuilding.
 
 ## Development commands
 
 | Command | Purpose |
 | --- | --- |
-| `npm run dev` | Start Vite's local development server |
-| `npm run build` | Type-check and create the Chrome extension build |
-| `npm run preview` | Preview the production web build locally |
+| `npm run dev` | Start Vite's popup development server |
+| `npm run lint` | Run ESLint |
+| `npm test` | Run the Vitest and React Testing Library suites |
+| `npm run build` | Type-check and build the unpacked extension into `dist/` |
+| `npm run preview` | Preview the popup build locally |
 
-There are no automated tests or lint script in this milestone. They will be introduced with the relevant features and tooling.
+## Continuous integration
+
+GitHub Actions runs on pushes and pull requests. It uses `npm ci`, lint, tests, and the production build. The workflow is in `.github/workflows/ci.yml`.
 
 ## Git workflow
 
-`main` is reserved for stable releases. `develop` is the integration branch. Create `feature/<short-description>`, `fix/<short-description>`, or `docs/<short-description>` branches from `develop`; validate and commit each focused change before merging it back into `develop`. Promote `develop` to `main` after it is stable.
+`main` is reserved for stable releases. `develop` is the integration branch. Create `feature/<short-description>`, `fix/<short-description>`, or `docs/<short-description>` branches from `develop`. Keep commits focused, validate changes, then merge completed features back into `develop`. Promote `develop` to `main` when the integration version is stable.
 
 ## Roadmap
 
-1. Project and extension setup (current)
-2. Clothing data model
-3. Local storage service
-4. Product metadata detection
-5. Save clothing flow
-6. My Closet interface
-7. Outfit model and builder
-8. Outfits dashboard
-9. Progressive tests and CI
-
-AI outfit suggestions, price tracking, cloud sync, accounts, and advanced clothing recognition remain future enhancements.
+- AI outfit suggestions
+- Price tracking and price-drop notifications
+- User accounts and cloud synchronization
+- Advanced image-based clothing recognition
