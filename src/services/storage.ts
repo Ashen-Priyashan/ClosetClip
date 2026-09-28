@@ -2,6 +2,7 @@
 
 import type { ClothingItem } from '../types/clothing'
 import type { Outfit } from '../types/outfit'
+import { inferClothingCategory } from './clothingFromProduct'
 
 const CLOTHING_STORAGE_KEY = 'clothingItems'
 const OUTFIT_STORAGE_KEY = 'outfits'
@@ -17,7 +18,17 @@ async function writeClothingItems(items: ClothingItem[]): Promise<void> {
 }
 
 export async function getClothingItems(): Promise<ClothingItem[]> {
-  return readClothingItems()
+  const items = await readClothingItems()
+  let changed = false
+  const categorized = items.map((item) => {
+    if (item.category !== 'unknown') return item
+    const category = inferClothingCategory(item)
+    if (category === 'unknown') return item
+    changed = true
+    return { ...item, category }
+  })
+  if (changed) await writeClothingItems(categorized)
+  return categorized
 }
 
 export async function getClothingById(id: string): Promise<ClothingItem | undefined> {

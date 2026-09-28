@@ -1,5 +1,6 @@
 export interface DetectedProduct {
   name?: string
+  category?: string
   brand?: string
   price?: number
   currency?: string
@@ -106,11 +107,13 @@ export function extractProduct(document: Document = window.document): DetectedPr
   const imageUrl = resolveUrl(rawImage, sourceUrl)
 
   const detected: DetectedProduct = { sourceUrl }
+  const category = asText(product?.category)
   const brand = asText(product?.brand) ?? firstMeta(document, ['meta[property="product:brand"]'])
   const currency = asText(offer?.priceCurrency)
     ?? firstMeta(document, ['meta[property="product:price:currency"]'])
 
   if (name) detected.name = name
+  if (category) detected.category = category
   if (brand) detected.brand = brand
   if (price !== undefined) detected.price = price
   if (currency) detected.currency = currency
