@@ -3,7 +3,10 @@
   "name": "ClosetClip",
   "version": "0.1.0",
   "description": "A personal digital closet for the clothing you discover online.",
-  "permissions": ["activeTab", "scripting", "storage"],
+  "permissions": ["activeTab", "contextMenus", "scripting", "storage"],
+  "background": {
+    "service_worker": "background.js"
+  },
   "action": {
     "default_title": "Open ClosetClip",
     "default_popup": "index.html"
