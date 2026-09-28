@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
-import { ArrowUpRight, Bookmark, Check, LoaderCircle, Pencil, Search, Shirt, Sparkles, Trash2, X } from 'lucide-react'
+import { ArrowLeft, ArrowUpRight, Bookmark, Check, LoaderCircle, Pencil, Search, Shirt, Sparkles, Trash2, X } from 'lucide-react'
 import type { ClothingCategory, ClothingItem } from '../types/clothing'
 import { CLOTHING_CATEGORIES } from '../types/clothing'
 import type { DetectedProduct } from '../services/extractor'
 import { saveClothing, getClothingItems, updateClothing, deleteClothing } from '../services/storage'
 import OutfitBuilder from '../components/OutfitBuilder'
 import type { Outfit } from '../types/outfit'
+import OutfitsDashboard from '../components/OutfitsDashboard'
 
 type DetectionStatus = 'loading' | 'ready' | 'unavailable' | 'error'
 type View = 'save' | 'closet' | 'outfits'
@@ -20,6 +21,7 @@ export default function App() {
   const [search, setSearch] = useState('')
   const [category, setCategory] = useState<ClothingCategory | 'all'>('all')
   const [editingId, setEditingId] = useState<string>()
+  const [showOutfitBuilder, setShowOutfitBuilder] = useState(false)
   const [draft, setDraft] = useState({ name: '', brand: '', price: '', notes: '', category: 'unknown' as ClothingCategory })
 
   useEffect(() => {
@@ -134,7 +136,7 @@ export default function App() {
       <nav className="view-tabs" aria-label="ClosetClip sections">
         {(['save', 'closet', 'outfits'] as const).map((tab) => (
           <button key={tab} className={view === tab ? 'view-tab active' : 'view-tab'} onClick={() => { setView(tab); setMessage('') }}>
-            {tab === 'save' ? 'Save' : tab === 'closet' ? 'My Closet' : 'Outfits'}
+        {tab === 'save' ? 'Save' : tab === 'closet' ? 'My Closet' : 'Outfits'}
           </button>
         ))}
       </nav>
@@ -202,7 +204,12 @@ export default function App() {
           </article>)}</div>}
       </section>}
 
-      {view === 'outfits' && <OutfitBuilder items={items} onSaved={(_outfit: Outfit) => setMessage('Outfit saved.')} />}
+      {view === 'outfits' && (showOutfitBuilder
+        ? <>
+          <button className="back-button builder-back" onClick={() => setShowOutfitBuilder(false)}><ArrowLeft size={15} /> Your outfits</button>
+          <OutfitBuilder items={items} onSaved={(_outfit: Outfit) => { setMessage('Outfit saved.'); setShowOutfitBuilder(false) }} />
+        </>
+        : <OutfitsDashboard onCreate={() => setShowOutfitBuilder(true)} />)}
 
       <footer className="footer-note"><span>Made for the pieces that feel like you.</span><ArrowUpRight size={15} /></footer>
     </main>

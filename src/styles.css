@@ -68,6 +68,33 @@ button, a { font: inherit; }
 .builder-item svg { flex: none; }
 .error-message { color: #9b5d52; }
 .outfit-save { margin-top: 14px; }
+.outfits-dashboard { padding-top: 24px; }
+.outfits-dashboard .section-heading { margin-bottom: 13px; }
+.add-outfit-button { width: 31px; height: 31px; display: grid; place-items: center; border: 1px solid #dfe3d9; border-radius: 9px; color: #3d5145; background: #f4f5f0; cursor: pointer; }
+.outfit-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; max-height: 458px; overflow-y: auto; }
+.outfit-card { padding: 8px; border: 1px solid #ebe7df; border-radius: 10px; background: #fffefa; }
+.outfit-preview { width: 100%; height: 126px; display: flex; overflow: hidden; align-items: stretch; justify-content: center; gap: 2px; padding: 0; border: 0; border-radius: 7px; color: #9ba18b; background: #eeece5; cursor: pointer; }
+.outfit-preview img { width: 33.3%; min-width: 0; height: 100%; object-fit: cover; }
+.outfit-card-title { width: 100%; display: flex; justify-content: space-between; gap: 5px; margin-top: 8px; padding: 0; border: 0; color: #30322c; background: transparent; text-align: left; font: 14px/1.2 Georgia, "Times New Roman", serif; cursor: pointer; }
+.outfit-card-meta { display: block; margin-top: 4px; color: #828579; font-size: 9px; }
+.back-button { display: flex; align-items: center; gap: 5px; padding: 0; border: 0; color: #72796c; background: transparent; font-size: 10px; cursor: pointer; }
+.builder-back { margin-top: 22px; }
+.outfit-detail-heading { display: flex; justify-content: space-between; gap: 8px; margin: 8px 0 12px; }
+.outfit-detail-heading h2 { margin: 0 0 4px; font: 500 25px/1.1 Georgia, "Times New Roman", serif; }
+.outfit-detail-heading > div:first-child > span { color: #83867b; font-size: 9px; }
+.outfit-notes-copy { margin: 0 0 12px; color: #77796f; font: italic 12px/1.45 Georgia, "Times New Roman", serif; }
+.outfit-piece-list { display: grid; gap: 7px; max-height: 420px; overflow-y: auto; }
+.outfit-piece { display: flex; align-items: center; gap: 9px; padding: 7px; border: 1px solid #ebe7df; border-radius: 9px; color: #4a4c44; text-decoration: none; background: #fffefa; }
+.outfit-piece img { width: 48px; height: 51px; border-radius: 6px; object-fit: cover; }
+.outfit-piece > span { flex: 1; display: grid; gap: 3px; }
+.outfit-piece strong { font: 14px Georgia, "Times New Roman", serif; }
+.outfit-piece small { color: #87897f; font-size: 9px; }
+.outfit-piece > svg { color: #8a9083; }
+.outfit-edit-form { display: grid; gap: 10px; margin-top: 17px; }
+.outfit-edit-form label { display: grid; gap: 5px; color: #77796f; font-size: 9px; }
+.outfit-edit-form input, .outfit-edit-form textarea { width: 100%; padding: 9px; border: 1px solid #e7e4dc; border-radius: 8px; color: #383a33; background: #fffefa; font: 11px ui-sans-serif, system-ui, sans-serif; }
+.outfit-edit-form textarea { min-height: 60px; resize: vertical; }
+.text-button { border: 0; color: #516c58; background: transparent; font-size: 10px; cursor: pointer; }
 .edit-form { display: grid; gap: 6px; }
 .edit-form label { display: grid; gap: 3px; color: #77796f; font-size: 8px; }
 .edit-form input, .edit-form select, .edit-form textarea { min-width: 0; width: 100%; padding: 5px; border: 1px solid #e7e4dc; border-radius: 5px; color: #383a33; background: #fffefa; font-size: 9px; }
