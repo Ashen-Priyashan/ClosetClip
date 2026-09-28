@@ -1,11 +1,13 @@
 const SAVE_MENU_ID = 'closetclip-save-product'
 
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.contextMenus.create({
-    id: SAVE_MENU_ID,
-    title: 'Save to ClosetClip',
-    contexts: ['page'],
-    documentUrlPatterns: ['http://*/*', 'https://*/*'],
+  chrome.contextMenus.removeAll(() => {
+    chrome.contextMenus.create({
+      id: SAVE_MENU_ID,
+      title: 'Save to ClosetClip',
+      contexts: ['page'],
+      documentUrlPatterns: ['http://*/*', 'https://*/*'],
+    })
   })
 })
 
