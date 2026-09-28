@@ -7,8 +7,9 @@ ClosetClip is a Chrome extension project for collecting clothing discoveries int
 - React, TypeScript, Vite, and Tailwind CSS are configured.
 - A basic popup is available from the extension toolbar.
 - A typed clothing item model defines the fields and categories for saved pieces.
+- A storage service reads and writes clothing items through `chrome.storage.local`.
 - The popup's save control is intentionally disabled. Product detection and saving are later milestones.
-- Product detection, saving, storage, closet management, and outfit features are not implemented yet.
+- Product detection, popup-connected saving, closet management, and outfit features are not implemented yet.
 
 ## Tech stack
 
@@ -22,6 +23,7 @@ public/
   manifest.json      Manifest V3 definition
 src/
   popup/             Popup React entry and UI
+  services/          Browser storage service
   types/             Shared TypeScript data models
   styles.css         Tailwind import and popup styles
 tests/               Model and service tests
