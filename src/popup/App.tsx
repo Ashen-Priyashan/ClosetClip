@@ -6,7 +6,6 @@ import type { DetectedProduct } from '../services/extractor'
 import { saveClothing, getClothingItems, updateClothing, deleteClothing } from '../services/storage'
 import { createClothingItem } from '../services/clothingFromProduct'
 import OutfitBuilder from '../components/OutfitBuilder'
-import type { Outfit } from '../types/outfit'
 import OutfitsDashboard from '../components/OutfitsDashboard'
 
 type DetectionStatus = 'loading' | 'ready' | 'unavailable' | 'error'
@@ -200,7 +199,7 @@ export default function App() {
       {view === 'outfits' && (showOutfitBuilder
         ? <>
           <button className="back-button builder-back" onClick={() => setShowOutfitBuilder(false)}><ArrowLeft size={15} /> Your outfits</button>
-          <OutfitBuilder items={items} onSaved={(_outfit: Outfit) => { setMessage('Outfit saved.'); setShowOutfitBuilder(false) }} />
+          <OutfitBuilder items={items} onSaved={() => { setMessage('Outfit saved.'); setShowOutfitBuilder(false) }} />
         </>
         : <OutfitsDashboard onCreate={() => setShowOutfitBuilder(true)} />)}
 
