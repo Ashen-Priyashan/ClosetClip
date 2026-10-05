@@ -85,4 +85,15 @@ describe('clothing storage service', () => {
     await expect(saveClothing(duplicate)).resolves.toEqual({ item, alreadySaved: true })
     expect(values[STORAGE_KEY]).toEqual([item])
   })
+
+  it('updates an existing watch category when the same product is saved again', async () => {
+    const watch: ClothingItem = { ...item, id: 'watch', name: 'Classic wristwatch', category: 'accessory' }
+    values[STORAGE_KEY] = [watch]
+
+    await expect(saveClothing({ ...watch, id: 'duplicate' })).resolves.toEqual({
+      item: { ...watch, category: 'extras' },
+      alreadySaved: true,
+    })
+    expect(values[STORAGE_KEY]).toEqual([{ ...watch, category: 'extras' }])
+  })
 })

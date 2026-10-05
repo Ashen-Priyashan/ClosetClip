@@ -43,6 +43,12 @@ export async function saveClothing(
   const existingItem = items.find((savedItem) => savedItem.sourceUrl === item.sourceUrl)
 
   if (existingItem) {
+    const inferredCategory = inferClothingCategory(existingItem)
+    if ((existingItem.category === 'unknown' || existingItem.category === 'accessory') && inferredCategory === 'extras') {
+      const updatedItem = { ...existingItem, category: inferredCategory }
+      await writeClothingItems(items.map((savedItem) => savedItem.id === existingItem.id ? updatedItem : savedItem))
+      return { item: updatedItem, alreadySaved: true }
+    }
     return { item: existingItem, alreadySaved: true }
   }
 
