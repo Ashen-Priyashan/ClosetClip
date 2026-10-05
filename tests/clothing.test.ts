@@ -9,6 +9,7 @@ describe('clothing categories', () => {
       'shoes',
       'outerwear',
       'accessory',
+      'extras',
       'dress',
       'unknown',
     ])

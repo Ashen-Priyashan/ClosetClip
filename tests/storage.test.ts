@@ -50,6 +50,14 @@ describe('clothing storage service', () => {
     await expect(getClothingById('missing')).resolves.toBeUndefined()
   })
 
+  it('moves existing watches from accessories into wardrobe extras', async () => {
+    const watch: ClothingItem = { ...item, id: 'watch', name: 'Silver watch', category: 'accessory' }
+    values[STORAGE_KEY] = [watch]
+
+    await expect(getClothingItems()).resolves.toEqual([{ ...watch, category: 'extras' }])
+    expect(values[STORAGE_KEY]).toEqual([{ ...watch, category: 'extras' }])
+  })
+
   it('updates editable fields while preserving the id and creation date', async () => {
     values[STORAGE_KEY] = [item]
 

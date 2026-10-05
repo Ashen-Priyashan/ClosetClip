@@ -7,7 +7,7 @@ ClosetClip is a Chrome extension for saving clothing discoveries into a personal
 - Detect product name, brand, price, currency, image, and page URL from JSON-LD, Open Graph metadata, and common page fallbacks.
 - Save a detected product from the extension popup or the page context menu.
 - Store clothing items locally and detect duplicates by source URL.
-- Browse the closet, search by name, brand, or notes, filter by category, edit item details, open the original product, and delete saved items.
+- Browse the closet, search by name, brand, or notes, filter by category (including **Wardrobe Extras** for watches, bags, wallets, belts, sunglasses, and jewelry), edit item details, open the original product, and delete saved items.
 - Select closet items, create named outfits, and view, edit, or delete saved outfits.
 - Keep outfits linked to clothing item IDs rather than copying the clothing records.
 

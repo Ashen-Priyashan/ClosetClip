@@ -95,7 +95,7 @@ export default function OutfitBuilder({ items, onSaved }: OutfitBuilderProps) {
 function labelForCategory(category: ClothingCategory): string {
   const labels: Record<ClothingCategory, string> = {
     top: 'Tops', bottom: 'Bottoms', shoes: 'Shoes', outerwear: 'Outerwear',
-    accessory: 'Accessories', dress: 'Dresses', unknown: 'Other pieces',
+    accessory: 'Accessories', extras: 'Wardrobe Extras', dress: 'Dresses', unknown: 'Other pieces',
   }
   return labels[category]
 }
