@@ -211,7 +211,7 @@ export default function App() {
 function categoryLabel(category: ClothingCategory): string {
   const labels: Record<ClothingCategory, string> = {
     top: 'Tops', bottom: 'Bottoms', shoes: 'Shoes', outerwear: 'Outerwear',
-    accessory: 'Accessories', extras: 'Wardrobe Extras', dress: 'Dresses', unknown: 'Other',
+    accessory: 'Accessories', extras: 'Extras', dress: 'Dresses', unknown: 'Other',
   }
   return labels[category]
 }

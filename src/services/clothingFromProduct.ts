@@ -2,7 +2,7 @@ import type { ClothingItem } from '../types/clothing'
 import type { DetectedProduct } from './extractor'
 
 const CATEGORY_TERMS = {
-  extras: ['watch', 'watches', 'jewelry', 'jewellery', 'belt', 'belts', 'sunglasses', 'wallet', 'handbag', 'purse', 'bag', 'backpack'],
+  extras: ['watch', 'watches', 'wristwatch', 'wristwatches', 'smartwatch', 'smartwatches', 'timepiece', 'timepieces', 'chronograph', 'chronographs', 'jewelry', 'jewellery', 'belt', 'belts', 'sunglasses', 'wallet', 'handbag', 'purse', 'bag', 'backpack'],
   accessory: ['accessory', 'accessories', 'necklace', 'earring', 'earrings', 'bracelet', 'bracelets', 'ring', 'rings', 'scarf', 'scarves', 'hat', 'hats', 'cap', 'caps'],
   shoes: ['shoe', 'shoes', 'sneaker', 'sneakers', 'boot', 'boots', 'sandal', 'sandals', 'heel', 'heels', 'loafer', 'flats'],
   outerwear: ['jacket', 'coat', 'blazer', 'cardigan', 'parka', 'trench', 'vest'],

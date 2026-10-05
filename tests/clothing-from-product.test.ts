@@ -20,6 +20,9 @@ describe('createClothingItem', () => {
   it.each([
     ['Gold hoop earrings', 'accessory'],
     ['Silver watch', 'extras'],
+    ['Classic wristwatch', 'extras'],
+    ['Sport smartwatch', 'extras'],
+    ['Automatic chronograph', 'extras'],
     ['Leather handbag', 'extras'],
     ['Canvas backpack', 'extras'],
     ['Linen shirt', 'top'],
