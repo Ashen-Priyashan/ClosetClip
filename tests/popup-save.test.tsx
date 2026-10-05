@@ -53,7 +53,7 @@ describe('popup save action', () => {
       currency: 'USD',
       imageUrl: detectedProduct.imageUrl,
       sourceUrl: detectedProduct.sourceUrl,
-      category: 'unknown',
+      category: 'top',
     })
   })
 })

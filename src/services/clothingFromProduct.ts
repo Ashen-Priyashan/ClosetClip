@@ -2,7 +2,8 @@ import type { ClothingItem } from '../types/clothing'
 import type { DetectedProduct } from './extractor'
 
 const CATEGORY_TERMS = {
-  accessory: ['accessory', 'accessories', 'jewelry', 'jewellery', 'necklace', 'earring', 'earrings', 'bracelet', 'bracelets', 'ring', 'rings', 'belt', 'belts', 'sunglasses', 'scarf', 'scarves', 'hat', 'hats', 'cap', 'caps', 'wallet', 'handbag', 'purse', 'bag', 'watch', 'watches'],
+  extras: ['watch', 'watches', 'jewelry', 'jewellery', 'belt', 'belts', 'sunglasses', 'wallet', 'handbag', 'purse', 'bag', 'backpack'],
+  accessory: ['accessory', 'accessories', 'necklace', 'earring', 'earrings', 'bracelet', 'bracelets', 'ring', 'rings', 'scarf', 'scarves', 'hat', 'hats', 'cap', 'caps'],
   shoes: ['shoe', 'shoes', 'sneaker', 'sneakers', 'boot', 'boots', 'sandal', 'sandals', 'heel', 'heels', 'loafer', 'flats'],
   outerwear: ['jacket', 'coat', 'blazer', 'cardigan', 'parka', 'trench', 'vest'],
   dress: ['dress', 'jumpsuit', 'romper'],
@@ -12,7 +13,7 @@ const CATEGORY_TERMS = {
 
 export function inferClothingCategory(product: Pick<DetectedProduct, 'name' | 'category'>): ClothingItem['category'] {
   const text = ` ${`${product.category ?? ''} ${product.name ?? ''}`.toLocaleLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()} `
-  for (const category of ['accessory', 'shoes', 'outerwear', 'dress', 'bottom', 'top'] as const) {
+  for (const category of ['extras', 'accessory', 'shoes', 'outerwear', 'dress', 'bottom', 'top'] as const) {
     if (CATEGORY_TERMS[category].some((term) => text.includes(` ${term.toLocaleLowerCase().replace(/[^a-z0-9]+/g, ' ')} `))) return category
   }
   return 'unknown'

@@ -21,9 +21,9 @@ export async function getClothingItems(): Promise<ClothingItem[]> {
   const items = await readClothingItems()
   let changed = false
   const categorized = items.map((item) => {
-    if (item.category !== 'unknown') return item
+    if (item.category !== 'unknown' && item.category !== 'accessory') return item
     const category = inferClothingCategory(item)
-    if (category === 'unknown') return item
+    if (category === 'unknown' || category === item.category) return item
     changed = true
     return { ...item, category }
   })
